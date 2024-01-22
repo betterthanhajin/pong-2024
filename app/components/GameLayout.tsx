@@ -1,4 +1,9 @@
+import { MouseEventHandler } from "react";
+
 const GameLayout = () => {
+  const handleMouseMove: MouseEventHandler<HTMLDivElement> = (e) => {
+    console.log({ mousex: e.clientX, mousey: e.clientY });
+  };
   return (
     <div className="game-layout flex justify-between items-center w-full h-full">
       <div className="game-layout__left">
