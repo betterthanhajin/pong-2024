@@ -4,7 +4,6 @@ import { GameContext } from "../contexts/GameContext";
 const Pong = () => {
   const ballRef = useRef<HTMLDivElement | null>(null);
   const layoutContext = useContext(GameContext);
-
   useEffect(() => {
     console.log("use", { layoutContext });
     const ball = ballRef.current;
