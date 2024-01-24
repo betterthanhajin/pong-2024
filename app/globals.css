@@ -40,3 +40,7 @@ body {
     text-wrap: balance;
   }
 }
+
+.game-layout {
+  background-color: yellow;
+}
