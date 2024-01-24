@@ -7,13 +7,14 @@ import {
   useEffect,
 } from "react";
 import { GameContext } from "../contexts/GameContext";
+import { BallContext } from "../contexts/BallContext";
 
 const GameLayout = () => {
   const layoutContext = useContext(GameContext);
+  const ballContext = useContext(BallContext);
   const backgroundRef = useRef<HTMLDivElement | null>(null);
   const brickRefLeft = useRef<HTMLDivElement | null>(null);
   const handleMouseMove: MouseEventHandler<HTMLDivElement> = (e) => {
-    console.log({ mousex: e.clientX, mousey: e.clientY });
     if (layoutContext && brickRefLeft.current) {
       if (brickRefLeft.current) {
         brickRefLeft.current.style.position = "absolute";
@@ -30,6 +31,38 @@ const GameLayout = () => {
       layoutContext.backgroundRef.current = backgroundRef.current;
     }
   }, [backgroundRef]);
+
+  useEffect(() => {
+    const checkCollision = () => {
+      const ball = ballContext?.ballRef.current;
+      const brick = brickRefLeft.current;
+
+      if (ball && brick) {
+        const ballRect = ball.getBoundingClientRect();
+        const brickRect = brick.getBoundingClientRect();
+
+        if (
+          ballRect.x < brickRect.x + brickRect.width &&
+          ballRect.x + ballRect.width > brickRect.x &&
+          ballRect.y < brickRect.y + brickRect.height &&
+          ballRect.y + ballRect.height > brickRect.y
+        ) {
+          // 충돌 발생
+          console.log("Collision detected!");
+        } else {
+          // 충돌 안함
+          console.log("No collision");
+        }
+      }
+    };
+
+    // 60fps로 충돌 확인
+    const intervalId = setInterval(checkCollision, 1000 / 60);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [ballContext?.ballRef.current, brickRefLeft]);
   return (
     <div
       className="game-layout flex justify-between items-center w-full h-full"

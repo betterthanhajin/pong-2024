@@ -1,11 +1,13 @@
 "use client";
 import { useEffect, useRef, useContext } from "react";
 import { GameContext } from "../contexts/GameContext";
+import { BallContext } from "../contexts/BallContext";
 const Pong = () => {
   const ballRef = useRef<HTMLDivElement | null>(null);
   const layoutContext = useContext(GameContext);
+  const ballContext = useContext(BallContext);
   useEffect(() => {
-    console.log("use", { layoutContext });
+    console.log("use", { ballContext });
     const ball = ballRef.current;
     let direction = 1;
     const moveBall = () => {
@@ -21,7 +23,11 @@ const Pong = () => {
     const intervalId = setInterval(moveBall, 20);
     return () => clearInterval(intervalId);
   }, [layoutContext]);
-
+  useEffect(() => {
+    if (ballContext && ballRef.current) {
+      ballContext.ballRef.current = ballRef.current;
+    }
+  }, [ballRef]);
   return (
     <div className="pong-ball-container">
       <div
