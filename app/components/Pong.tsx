@@ -14,7 +14,7 @@ const Pong = () => {
       if (ball && layoutContext && layoutContext.backgroundRef.current) {
         const left = ball.style.left ? parseInt(ball.style.left) : 112;
         if (left > layoutContext.backgroundRef.current?.offsetWidth + 45)
-          direction = -1;
+          direction = 1;
         if (left < 112) direction = 1;
         ball.style.left = `${left + direction * 5}px`;
         ball.style.top = window.innerHeight / 2 + "px";

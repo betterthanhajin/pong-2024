@@ -36,10 +36,12 @@ const GameLayout = () => {
     const checkCollision = () => {
       const ball = ballContext?.ballRef.current;
       const brick = brickRefLeft.current;
+      const background = backgroundRef.current;
 
-      if (ball && brick) {
+      if (ball && brick && background) {
         const ballRect = ball.getBoundingClientRect();
         const brickRect = brick.getBoundingClientRect();
+        const backgroundRect = background.getBoundingClientRect();
 
         if (
           ballRect.x < brickRect.x + brickRect.width &&
@@ -49,9 +51,20 @@ const GameLayout = () => {
         ) {
           // 충돌 발생
           console.log("Collision detected!");
-        } else {
-          // 충돌 안함
-          console.log("No collision");
+        }
+
+        if (
+          ballRect.x < backgroundRect.x ||
+          ballRect.x + ballRect.width >
+            backgroundRect.x + backgroundRect.width ||
+          ballRect.y < backgroundRect.y ||
+          ballRect.y + ballRect.height >
+            backgroundRect.y + backgroundRect.height
+        ) {
+          // ballRef가 backgroundRef를 벗어남
+          console.log("Game Over");
+          alert("Game Over");
+          return;
         }
       }
     };
