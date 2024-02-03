@@ -1,5 +1,4 @@
 "use client";
-import { Odor_Mean_Chey } from "next/font/google";
 import GameLayout from "./components/GameLayout";
 import Pong from "./components/Pong";
 import { GameContext } from "./contexts/GameContext";
