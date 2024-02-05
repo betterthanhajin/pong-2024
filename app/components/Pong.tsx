@@ -7,7 +7,7 @@ const Pong = () => {
   const layoutContext = useContext(GameContext);
   const ballContext = useContext(BallContext);
   useEffect(() => {
-    console.log("use", { ballContext });
+    //console.log("use", { ballContext });
     const ball = ballRef.current;
     let direction = 1;
     const moveBall = () => {
