@@ -62,8 +62,8 @@ const GameLayout = () => {
             backgroundRect.y + backgroundRect.height
         ) {
           // ballRef가 backgroundRef를 벗어남
-          console.log("Game Over");
-          alert("Game Over");
+          // console.log("Game Over");
+          // alert("Game Over");
           return;
         }
       }
