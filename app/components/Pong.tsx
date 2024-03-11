@@ -32,7 +32,7 @@ const Pong = () => {
     <div className="pong-ball-container">
       <div
         ref={ballRef}
-        className="pong-ball w-8 h-8 absolute top-0 left-0 bg-teal-500 rounded-2xl"
+        className="pong-ball w-8 h-8 absolute top-0 left-0 bg-white rounded-2xl"
       ></div>
     </div>
   );

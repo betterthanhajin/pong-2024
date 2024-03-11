@@ -8,6 +8,7 @@ import {
 } from "react";
 import { GameContext } from "../contexts/GameContext";
 import { BallContext } from "../contexts/BallContext";
+import GameHeader from "./GameHeader";
 
 const GameLayout = () => {
   const layoutContext = useContext(GameContext);
@@ -78,16 +79,17 @@ const GameLayout = () => {
   }, [ballContext?.ballRef.current, brickRefLeft]);
   return (
     <div
-      className="game-layout flex justify-between items-center w-full h-full"
+      className="game-layout flex justify-between items-center w-full h-full relative"
       onMouseMove={handleMouseMove}
       ref={backgroundRef}
     >
+      <GameHeader />
       <div className="game-layout__left">
-        <div className="w-3 h-14 bg-slate-500" ref={brickRefLeft}></div>
+        <div className="w-3 h-14 bg-white" ref={brickRefLeft}></div>
       </div>
-      <div className="game-layout__center w-0 h-full border-l-4 border-dotted border-l-slate-700"></div>
+      <div className="game-layout__center w-0 h-full border-l-4 border-dotted border-l-white"></div>
       <div className="game-layout__right">
-        <div className="w-3 h-14 bg-slate-500"></div>
+        <div className="w-3 h-14 bg-white"></div>
       </div>
     </div>
   );

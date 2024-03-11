@@ -10,7 +10,7 @@ export default function Home() {
   const ballRef = useRef<HTMLDivElement | null>(null);
 
   return (
-    <main className="min-h-screen p-24 w-full h-full">
+    <main className="min-h-screen w-full h-full">
       <GameContext.Provider
         value={{
           backgroundRef,
