@@ -45,28 +45,30 @@ const GameLayout = () => {
         const brickRect = brick.getBoundingClientRect();
         const backgroundRect = background.getBoundingClientRect();
 
-        if (
-          ballRect.x < brickRect.x + brickRect.width &&
-          ballRect.x + ballRect.width > brickRect.x &&
-          ballRect.y < brickRect.y + brickRect.height &&
-          ballRect.y + ballRect.height > brickRect.y
-        ) {
-          // 충돌 발생
-          console.log("Collision detected!");
-        }
+        //   if (
+        //     ballRect.x < brickRect.x + brickRect.width &&
+        //     ballRect.x + ballRect.width > brickRect.x &&
+        //     ballRect.y < brickRect.y + brickRect.height &&
+        //     ballRect.y + ballRect.height > brickRect.y
+        //   ) {
+        //     // 충돌 발생
+        //     console.log("Collision detected!");
+        //   }
 
-        if (
-          ballRect.x < backgroundRect.x ||
-          ballRect.x + ballRect.width >
-            backgroundRect.x + backgroundRect.width ||
-          ballRect.y < backgroundRect.y ||
-          ballRect.y + ballRect.height >
-            backgroundRect.y + backgroundRect.height
-        ) {
-          // ballRef가 backgroundRef를 벗어남
-          // console.log("Game Over");
-          // alert("Game Over");
-          return;
+        //   if (
+        //     ballRect.x < backgroundRect.x ||
+        //     ballRect.x + ballRect.width >
+        //       backgroundRect.x + backgroundRect.width ||
+        //     ballRect.y < backgroundRect.y ||
+        //     ballRect.y + ballRect.height >
+        //       backgroundRect.y + backgroundRect.height
+        //   ) {
+        //     // ballRef가 backgroundRef를 벗어남
+        //     // console.log("Game Over");
+        //     // alert("Game Over");
+        //     return;
+        //   }
+        if (ballRect.x) {
         }
       }
     };
