@@ -9,23 +9,24 @@ import {
 import { GameContext } from "../contexts/GameContext";
 import { BallContext } from "../contexts/BallContext";
 import GameHeader from "./GameHeader";
+import GameDesc from "./GameDesc";
 
 const GameLayout = () => {
   const layoutContext = useContext(GameContext);
   const ballContext = useContext(BallContext);
   const backgroundRef = useRef<HTMLDivElement | null>(null);
   const brickRefLeft = useRef<HTMLDivElement | null>(null);
-  const handleMouseMove: MouseEventHandler<HTMLDivElement> = (e) => {
-    if (layoutContext && brickRefLeft.current) {
-      if (brickRefLeft.current) {
-        brickRefLeft.current.style.position = "absolute";
-        if (parseInt(brickRefLeft.current.style.top) < 96) {
-          brickRefLeft.current.style.top = "96px";
-        }
-        brickRefLeft.current.style.top = `${e.clientY - 56}px`;
-      }
-    }
-  };
+  // const handleMouseMove: MouseEventHandler<HTMLDivElement> = (e) => {
+  //   if (layoutContext && brickRefLeft.current) {
+  //     if (brickRefLeft.current) {
+  //       brickRefLeft.current.style.position = "absolute";
+  //       if (parseInt(brickRefLeft.current.style.top) < 96) {
+  //         brickRefLeft.current.style.top = "96px";
+  //       }
+  //       brickRefLeft.current.style.top = `${e.clientY - 56}px`;
+  //     }
+  //   }
+  // };
 
   useEffect(() => {
     if (layoutContext && backgroundRef.current) {
@@ -80,16 +81,16 @@ const GameLayout = () => {
   return (
     <div
       className="game-layout flex justify-between items-center w-full h-full relative"
-      onMouseMove={handleMouseMove}
       ref={backgroundRef}
     >
       <GameHeader />
       <div className="game-layout__left">
-        <div className="w-3 h-14 bg-white" ref={brickRefLeft}></div>
+        <div className="w-3 h-16 bg-white ml-3" ref={brickRefLeft}></div>
       </div>
-      <div className="game-layout__center w-0 h-full border-l-4 border-dotted border-l-white"></div>
+      <div className="game-layout__center w-0 h-full border-l-4 border-dotted border-l-white relative z-10"></div>
+      <GameDesc />
       <div className="game-layout__right">
-        <div className="w-3 h-14 bg-white"></div>
+        <div className="w-3 h-16 bg-white mr-3"></div>
       </div>
     </div>
   );
