@@ -5,6 +5,7 @@ import {
   createContext,
   useContext,
   useEffect,
+  KeyboardEventHandler,
 } from "react";
 import { GameContext } from "../contexts/GameContext";
 import { BallContext } from "../contexts/BallContext";
@@ -16,17 +17,22 @@ const GameLayout = () => {
   const ballContext = useContext(BallContext);
   const backgroundRef = useRef<HTMLDivElement | null>(null);
   const brickRefLeft = useRef<HTMLDivElement | null>(null);
-  // const handleMouseMove: MouseEventHandler<HTMLDivElement> = (e) => {
-  //   if (layoutContext && brickRefLeft.current) {
-  //     if (brickRefLeft.current) {
-  //       brickRefLeft.current.style.position = "absolute";
-  //       if (parseInt(brickRefLeft.current.style.top) < 96) {
-  //         brickRefLeft.current.style.top = "96px";
-  //       }
-  //       brickRefLeft.current.style.top = `${e.clientY - 56}px`;
-  //     }
-  //   }
-  // };
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (brickRefLeft.current) {
+      if (brickRefLeft.current) {
+        const top = brickRefLeft.current.style.top
+          ? parseInt(brickRefLeft.current.style.top)
+          : 0;
+        if (e.key === "W") {
+          brickRefLeft.current.style.top = `${top - 10}px`;
+        }
+
+        if (e.key === "S") {
+          brickRefLeft.current.style.top = `${top + 10}px`;
+        }
+      }
+    }
+  };
 
   useEffect(() => {
     if (layoutContext && backgroundRef.current) {
@@ -68,7 +74,11 @@ const GameLayout = () => {
         //     // alert("Game Over");
         //     return;
         //   }
-        if (ballRect.x) {
+        if (
+          backgroundRect.width >= ballRect.x ||
+          backgroundRect.left <= ballRect.x
+        ) {
+        } else {
         }
       }
     };
@@ -87,7 +97,11 @@ const GameLayout = () => {
     >
       <GameHeader />
       <div className="game-layout__left">
-        <div className="w-3 h-16 bg-white ml-3" ref={brickRefLeft}></div>
+        <div
+          className="w-3 h-16 bg-white ml-3"
+          ref={brickRefLeft}
+          onKeyDown={handleKeyDown}
+        ></div>
       </div>
       <div className="game-layout__center w-0 h-full border-l-4 border-dotted border-l-white relative z-10"></div>
       <GameDesc />
