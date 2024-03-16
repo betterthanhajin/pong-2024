@@ -2,6 +2,7 @@
 import {
   MouseEventHandler,
   useRef,
+  useState,
   createContext,
   useContext,
   useEffect,
@@ -17,19 +18,30 @@ const GameLayout = () => {
   const ballContext = useContext(BallContext);
   const backgroundRef = useRef<HTMLDivElement | null>(null);
   const brickRefLeft = useRef<HTMLDivElement | null>(null);
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (brickRefLeft.current) {
-      if (brickRefLeft.current) {
-        const top = brickRefLeft.current.style.top
-          ? parseInt(brickRefLeft.current.style.top)
-          : 0;
-        if (e.key === "W") {
-          brickRefLeft.current.style.top = `${top - 10}px`;
-        }
+  const [brickPosition, setBrickPosition] = useState({
+    top: 0,
+  });
+  useEffect(() => {
+    document.addEventListener("keydown", (event) => {
+      handleKeyDown(event);
+    });
+  }, []);
 
-        if (e.key === "S") {
-          brickRefLeft.current.style.top = `${top + 10}px`;
+  const handleKeyDown = (event: KeyboardEvent) => {
+    if (brickRefLeft.current) {
+      brickRefLeft.current.style.position = "absolute";
+      let top = brickRefLeft.current.style.top
+        ? parseInt(brickRefLeft.current.style.top)
+        : 400;
+      if (event.key === "w") {
+        if (top === 80) {
+          return;
         }
+        brickRefLeft.current.style.top = `${top - 10}px`;
+      }
+
+      if (event.key === "s") {
+        brickRefLeft.current.style.top = `${top + 10}px`;
       }
     }
   };
@@ -51,29 +63,6 @@ const GameLayout = () => {
         const brickRect = brick.getBoundingClientRect();
         const backgroundRect = background.getBoundingClientRect();
 
-        //   if (
-        //     ballRect.x < brickRect.x + brickRect.width &&
-        //     ballRect.x + ballRect.width > brickRect.x &&
-        //     ballRect.y < brickRect.y + brickRect.height &&
-        //     ballRect.y + ballRect.height > brickRect.y
-        //   ) {
-        //     // 충돌 발생
-        //     console.log("Collision detected!");
-        //   }
-
-        //   if (
-        //     ballRect.x < backgroundRect.x ||
-        //     ballRect.x + ballRect.width >
-        //       backgroundRect.x + backgroundRect.width ||
-        //     ballRect.y < backgroundRect.y ||
-        //     ballRect.y + ballRect.height >
-        //       backgroundRect.y + backgroundRect.height
-        //   ) {
-        //     // ballRef가 backgroundRef를 벗어남
-        //     // console.log("Game Over");
-        //     // alert("Game Over");
-        //     return;
-        //   }
         if (
           backgroundRect.width >= ballRect.x ||
           backgroundRect.left <= ballRect.x
