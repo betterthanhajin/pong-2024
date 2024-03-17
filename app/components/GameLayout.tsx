@@ -18,9 +18,8 @@ const GameLayout = () => {
   const ballContext = useContext(BallContext);
   const backgroundRef = useRef<HTMLDivElement | null>(null);
   const brickRefLeft = useRef<HTMLDivElement | null>(null);
-  const [brickPosition, setBrickPosition] = useState({
-    top: 0,
-  });
+  const brickRefRight = useRef<HTMLDivElement | null>(null);
+
   useEffect(() => {
     document.addEventListener("keydown", (event) => {
       handleKeyDown(event);
@@ -32,16 +31,54 @@ const GameLayout = () => {
       brickRefLeft.current.style.position = "absolute";
       let top = brickRefLeft.current.style.top
         ? parseInt(brickRefLeft.current.style.top)
-        : 400;
-      if (event.key === "w") {
-        if (top === 80) {
+        : 410;
+      if (event.key.toLocaleLowerCase() === "w") {
+        if (top <= 80) {
           return;
         }
-        brickRefLeft.current.style.top = `${top - 10}px`;
+        brickRefLeft.current.style.top = `${top - 20}px`;
+        brickRefLeft.current.style.transition = "all 1s";
       }
 
-      if (event.key === "s") {
-        brickRefLeft.current.style.top = `${top + 10}px`;
+      if (event.key.toLocaleLowerCase() === "s") {
+        if (top >= 720) {
+          return;
+        }
+        brickRefLeft.current.style.top = `${top + 20}px`;
+        brickRefLeft.current.style.transition = "all 1s";
+        console.log(
+          "brickRefLeft.current.style.top",
+          brickRefLeft.current.style.top
+        );
+      }
+    }
+
+    if (brickRefRight.current) {
+      let rightTop = brickRefRight.current.style.top
+        ? parseInt(brickRefRight.current.style.top)
+        : 410;
+      if (event.key.toLocaleLowerCase() === "o") {
+        if (rightTop <= 80) {
+          return;
+        }
+        brickRefRight.current.style.position = "absolute";
+        brickRefRight.current.style.top = `${rightTop - 20}px`;
+        brickRefRight.current.style.marginLeft = "-20px";
+        brickRefRight.current.style.transition = "all 1s";
+      }
+
+      if (event.key.toLocaleLowerCase() === "l") {
+        if (rightTop >= 720) {
+          return;
+        }
+        brickRefRight.current.style.position = "absolute";
+        brickRefRight.current.style.top = `${rightTop + 20}px`;
+        brickRefRight.current.style.marginLeft = "-20px";
+        brickRefRight.current.style.transition = "all 1s";
+        console.log(
+          "brickRefRight.current.style.top",
+          brickRefRight.current.style.top
+        );
       }
     }
   };
@@ -64,10 +101,27 @@ const GameLayout = () => {
         const backgroundRect = background.getBoundingClientRect();
 
         if (
-          backgroundRect.width >= ballRect.x ||
-          backgroundRect.left <= ballRect.x
+          ballRect.x < brickRect.x + brickRect.width &&
+          ballRect.x + ballRect.width > brickRect.x &&
+          ballRect.y < brickRect.y + brickRect.height &&
+          ballRect.y + ballRect.height > brickRect.y
         ) {
-        } else {
+          // 충돌 발생
+          console.log("Collision detected!");
+        }
+
+        if (
+          ballRect.x < backgroundRect.x ||
+          ballRect.x + ballRect.width >
+            backgroundRect.x + backgroundRect.width ||
+          ballRect.y < backgroundRect.y ||
+          ballRect.y + ballRect.height >
+            backgroundRect.y + backgroundRect.height
+        ) {
+          // ballRef가 backgroundRef를 벗어남
+          // console.log("Game Over");
+          // alert("Game Over");
+          return;
         }
       }
     };
@@ -86,16 +140,12 @@ const GameLayout = () => {
     >
       <GameHeader />
       <div className="game-layout__left">
-        <div
-          className="w-3 h-16 bg-white ml-3"
-          ref={brickRefLeft}
-          onKeyDown={handleKeyDown}
-        ></div>
+        <div className="w-3 h-16 bg-white ml-3" ref={brickRefLeft}></div>
       </div>
       <div className="game-layout__center w-0 h-full border-l-4 border-dotted border-l-white relative z-10"></div>
       <GameDesc />
       <div className="game-layout__right">
-        <div className="w-3 h-16 bg-white mr-3"></div>
+        <div className="w-3 h-16 bg-white mr-3" ref={brickRefRight}></div>
       </div>
     </div>
   );
