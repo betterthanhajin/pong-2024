@@ -22,7 +22,12 @@ const GameLayout = () => {
 
   useEffect(() => {
     document.addEventListener("keydown", (event) => {
-      handleKeyDown(event);
+      // 60fps로 충돌 확인
+      const keyDownIntervalId = setInterval(handleKeyDown, 1000 / 60, event);
+
+      return () => {
+        clearInterval(keyDownIntervalId);
+      };
     });
   }, []);
 
@@ -32,20 +37,21 @@ const GameLayout = () => {
       let top = brickRefLeft.current.style.top
         ? parseInt(brickRefLeft.current.style.top)
         : 410;
-      if (event.key.toLocaleLowerCase() === "w") {
+
+      if (event.key === "w") {
         if (top <= 80) {
           return;
         }
-        brickRefLeft.current.style.top = `${top - 20}px`;
-        brickRefLeft.current.style.transition = "all 1s";
+        brickRefLeft.current.style.top = `${top - 50}px`;
+        brickRefLeft.current.style.transition = "all 0.1s";
       }
 
-      if (event.key.toLocaleLowerCase() === "s") {
+      if (event.key === "s") {
         if (top >= 720) {
           return;
         }
-        brickRefLeft.current.style.top = `${top + 20}px`;
-        brickRefLeft.current.style.transition = "all 1s";
+        brickRefLeft.current.style.top = `${top + 50}px`;
+        brickRefLeft.current.style.transition = "all 0.1s";
         console.log(
           "brickRefLeft.current.style.top",
           brickRefLeft.current.style.top
@@ -57,28 +63,30 @@ const GameLayout = () => {
       let rightTop = brickRefRight.current.style.top
         ? parseInt(brickRefRight.current.style.top)
         : 410;
-      if (event.key.toLocaleLowerCase() === "o") {
+      if (event.key === "o") {
         if (rightTop <= 80) {
           return;
+        } else {
+          brickRefRight.current.style.position = "absolute";
+          brickRefRight.current.style.top = `${rightTop - 50}px`;
+          brickRefRight.current.style.marginLeft = "-20px";
+          brickRefRight.current.style.transition = "all 0.2s";
         }
-        brickRefRight.current.style.position = "absolute";
-        brickRefRight.current.style.top = `${rightTop - 20}px`;
-        brickRefRight.current.style.marginLeft = "-20px";
-        brickRefRight.current.style.transition = "all 1s";
       }
 
-      if (event.key.toLocaleLowerCase() === "l") {
+      if (event.key === "l") {
         if (rightTop >= 720) {
           return;
+        } else {
+          brickRefRight.current.style.position = "absolute";
+          brickRefRight.current.style.top = `${rightTop + 50}px`;
+          brickRefRight.current.style.marginLeft = "-20px";
+          brickRefRight.current.style.transition = "all 0.2s";
+          console.log(
+            "brickRefRight.current.style.top",
+            brickRefRight.current.style.top
+          );
         }
-        brickRefRight.current.style.position = "absolute";
-        brickRefRight.current.style.top = `${rightTop + 20}px`;
-        brickRefRight.current.style.marginLeft = "-20px";
-        brickRefRight.current.style.transition = "all 1s";
-        console.log(
-          "brickRefRight.current.style.top",
-          brickRefRight.current.style.top
-        );
       }
     }
   };
