@@ -63,6 +63,7 @@ const GameLayout = () => {
       let rightTop = brickRefRight.current.style.top
         ? parseInt(brickRefRight.current.style.top)
         : 410;
+      console.log("evemnt.key", event.key);
       if (event.key === "o") {
         if (rightTop <= 80) {
           return;
@@ -101,11 +102,13 @@ const GameLayout = () => {
     const checkCollision = () => {
       const ball = ballContext?.ballRef.current;
       const brick = brickRefLeft.current;
+      const brickRight = brickRefRight.current;
       const background = backgroundRef.current;
 
-      if (ball && brick && background) {
+      if (ball && brick && background && brickRight) {
         const ballRect = ball.getBoundingClientRect();
         const brickRect = brick.getBoundingClientRect();
+        const brickRightRect = brickRight?.getBoundingClientRect();
         const backgroundRect = background.getBoundingClientRect();
 
         if (
@@ -119,17 +122,12 @@ const GameLayout = () => {
         }
 
         if (
-          ballRect.x < backgroundRect.x ||
-          ballRect.x + ballRect.width >
-            backgroundRect.x + backgroundRect.width ||
-          ballRect.y < backgroundRect.y ||
-          ballRect.y + ballRect.height >
-            backgroundRect.y + backgroundRect.height
+          ballRect.x + ballRect.width > brickRightRect.x &&
+          ballRect.y < brickRightRect.y + brickRightRect.height
         ) {
-          // ballRef가 backgroundRef를 벗어남
-          // console.log("Game Over");
-          // alert("Game Over");
-          return;
+          if (ballRect.x + ballRect.width === brickRightRect.x) {
+            return;
+          }
         }
       }
     };
