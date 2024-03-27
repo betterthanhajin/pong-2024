@@ -10,6 +10,7 @@ import {
 } from "react";
 import { GameContext } from "../contexts/GameContext";
 import { BallContext } from "../contexts/BallContext";
+import { BrickLeftContext } from "../contexts/BrickLeftContext";
 import GameHeader from "./GameHeader";
 import GameDesc from "./GameDesc";
 
@@ -17,6 +18,7 @@ const GameLayout = () => {
   const layoutContext = useContext(GameContext);
   const ballContext = useContext(BallContext);
   const backgroundRef = useRef<HTMLDivElement | null>(null);
+  const brickLeftContext = useContext(BrickLeftContext);
   const brickRefLeft = useRef<HTMLDivElement | null>(null);
   const brickRefRight = useRef<HTMLDivElement | null>(null);
 
