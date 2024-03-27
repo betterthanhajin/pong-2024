@@ -3,11 +3,13 @@ import { useEffect, useRef, useContext } from "react";
 import { GameContext } from "../contexts/GameContext";
 import { BallContext } from "../contexts/BallContext";
 import { BrickLeftContext } from "../contexts/BrickLeftContext";
+import { BrickRightContext } from "../contexts/BrickRightContext";
 const Pong = () => {
   const ballRef = useRef<HTMLDivElement | null>(null);
   const layoutContext = useContext(GameContext);
   const ballContext = useContext(BallContext);
   const brickLeftContext = useContext(BrickLeftContext);
+  const brickRightContext = useContext(BrickRightContext);
   useEffect(() => {
     let direction = 1; // 1: 오른쪽, -1: 왼쪽
     const moveBall = () => {
@@ -17,10 +19,14 @@ const Pong = () => {
           : 0;
         const ball = ballContext?.ballRef.current;
         const brick = brickLeftContext?.brickRefLeft.current;
-
+        //const brickRight = brickRightContext?.brickRefRight.current;
+        console.log("brick***", brick);
+        console.log("ball***", ball);
         if (ball && brick) {
+          console.log("brick");
           const ballRect = ball.getBoundingClientRect();
           const brickRect = brick.getBoundingClientRect();
+          //const brickRightRect = brickRight.getBoundingClientRect();
           {
             if (
               ballRect.x < brickRect.x + brickRect.width &&
@@ -30,13 +36,19 @@ const Pong = () => {
             ) {
               // 충돌 발생
               console.log("Collision detected!");
+              direction = 1;
+            }
+
+            if (left > 1120) {
+              // 충돌 발생
+              console.log("Collision detected!right!!!!");
               direction = -1;
             }
           }
         }
 
-        if (left > 1120) direction = -1; // 오른쪽 끝에 도달하면 왼쪽으로
-        if (left < 12) direction = 1; // 왼쪽 끝에 도달하면 오른쪽으로
+        // if (left > 1120) direction = -1; // 오른쪽 끝에 도달하면 왼쪽으로
+        // if (left < 12) direction = 1; // 왼쪽 끝에 도달하면 오른쪽으로
         ballRef.current.style.top = "50%";
         ballRef.current.style.left = `${left + direction * 5}px`;
       }

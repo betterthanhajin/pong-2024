@@ -120,16 +120,7 @@ const GameLayout = () => {
           ballRect.y + ballRect.height > brickRect.y
         ) {
           // 충돌 발생
-          console.log("Collision detected!");
-        }
-
-        if (
-          ballRect.x + ballRect.width > brickRightRect.x &&
-          ballRect.y < brickRightRect.y + brickRightRect.height
-        ) {
-          if (ballRect.x + ballRect.width === brickRightRect.x) {
-            return;
-          }
+          console.log("%%%%Collision detected!");
         }
       }
     };
