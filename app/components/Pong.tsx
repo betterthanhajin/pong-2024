@@ -16,9 +16,9 @@ const Pong = () => {
           ? parseInt(ballRef.current.style.left)
           : 0;
         const ball = ballContext?.ballRef.current;
-        const brick = brickLeftContext;
+        const brick = brickLeftContext?.brickRefLeft.current;
 
-        if (brick) {
+        if (ball && brick) {
           const ballRect = ball.getBoundingClientRect();
           const brickRect = brick.getBoundingClientRect();
           {
